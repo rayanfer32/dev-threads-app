@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { User } from "../models/user.model";
 import { connectToDB } from "../mongoose";
+import { Thread } from "../models/thread.model";
 
 type Params = {
   userId: string;
@@ -50,9 +51,35 @@ export async function updateUser({
 export async function fetchUser(userId: string) {
   connectToDB();
 
-  return await User.findOne({ id: userId })
+  return await User.findOne({ id: userId });
   // .populate({
   //   path: "communities",
   //   model: Community,
   // });
+}
+
+export async function fetchUserPosts(userId: string) {
+  try {
+    connectToDB();
+
+    // find all threads authored by user with the given userId
+
+    // todo: populate community
+    const threads =  User.findOne({ id: userId }).populate({
+      path: "threads",
+      model: Thread,
+      populate: {
+        path: "children",
+        model: Thread,
+        populate: {
+          path: "author",
+          mode: User,
+          select: "name image id",
+        },
+      },
+    });
+    return threads;
+  } catch (error) {
+    throw new Error(`Error fetching user posts: ${error}`);
+  }
 }
