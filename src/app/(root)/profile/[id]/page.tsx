@@ -55,11 +55,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
               key={tab.value}
               value={tab.value}
             >
-                <ThreadsTab
+              <ThreadsTab
                 currentUserId={user.id}
                 accountId={userInfo.id}
                 accountType="User"
-                />
+              />
             </TabsContent>
           ))}
         </Tabs>
