@@ -1,12 +1,21 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  id: { type: String, required: true },
-  username: { type: String, required: true },
-  name: { type: String, required: true },
+  id: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
   image: String,
-  bio: { type: String, required: true },
-  profile_photo: String,
+  bio: String,
   threads: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +34,6 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-export default User
+export default User;

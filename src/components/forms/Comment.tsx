@@ -12,7 +12,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
 } from "@/components/ui/form";
 
 import { Input } from "../ui/input";
@@ -38,8 +37,6 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    console.log(values);
-    
     await addCommentToThread(
       threadId,
       values.thread,
@@ -53,9 +50,6 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
   return (
     <Form {...form}>
       <form className='comment-form' onSubmit={form.handleSubmit(onSubmit)}>
-      <FormMessage/>
-      <pre className="text-white">{JSON.stringify(form.formState.errors, null , 2)}</pre>
-
         <FormField
           control={form.control}
           name='thread'
@@ -82,9 +76,9 @@ function Comment({ threadId, currentUserImg, currentUserId }: Props) {
           )}
         />
 
-        <button type='submit' className='comment-form_btn'>
+        <Button type='submit' className='comment-form_btn'>
           Reply
-        </button>
+        </Button>
       </form>
     </Form>
   );
